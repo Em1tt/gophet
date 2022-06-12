@@ -28,9 +28,6 @@ func (i Input) GetKey(ui *UI) {
 			}
 		case tb.KeyCtrlQ:
 			ui.Exit = true
-
-//		default:
-//			ui.FileContent[ui.Cursor[1]][ui.Cursor[0]] = event.Ch
 		}
 	}
 
