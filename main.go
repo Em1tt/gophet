@@ -5,7 +5,7 @@ import (
 	tb "github.com/nsf/termbox-go"
 	"os"
 	"strings"
-	"time"
+//	"time"
 )
 
 // all UI features are defined in ui.go
@@ -90,6 +90,7 @@ welcome to gophet!
 		tb.Flush()
 		input.GetKey(&ui)
 		// TODO: lower this when idle
-		time.Sleep(16 * time.Millisecond)
+    // this is probably not needed though, since input.GetKey() is blocking
+		// time.Sleep(16 * time.Millisecond)
 	}
 }
