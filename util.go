@@ -18,10 +18,11 @@ func fopen(fname string) []byte {
 
 	fstat, err := f.Stat()
 	check(err)
+  size := int(fstat.Size())
 
-	// TODO: fix buffer full
-	buf := bufio.NewReader(f)
-	src, err = buf.Peek(int(fstat.Size()))
+	// TODO: make this better, if possible
+	buf := bufio.NewReaderSize(f, size)
+	src, err = buf.Peek(size)
 	check(err)
 
 	return src
