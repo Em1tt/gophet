@@ -65,6 +65,7 @@ welcome to gophet!
 		Width:           width,
 		Height:          height,
 		FileModified:    false,
+		Exit:            false,
 		InfoBarColor:    Color{tb.ColorWhite, tb.ColorBlack},
 		TextFieldColor:  Color{tb.ColorBlack, tb.ColorWhite},
 		RulerColor:      Color{tb.ColorBlack, tb.ColorLightGray},
@@ -78,6 +79,9 @@ welcome to gophet!
 	tb.SetInputMode(tb.InputAlt)
 
 	for {
+		if ui.Exit {
+			break
+		}
 		// resize
 		ui.Width, ui.Height = tb.Size()
 		err = tb.Clear(tb.ColorDefault, tb.ColorDefault)

@@ -14,7 +14,7 @@ type UI struct {
 	FileName, FileContent, Command                                         string
 	FileLines                                                              []string
 	Width, Height, RulerPadding                                            int
-	FileModified                                                           bool
+	FileModified, Exit                                                     bool
 	InfoBarColor, TextFieldColor, RulerColor, CommandBarColor, CursorColor Color
 	Cursor                                                                 []int
 }

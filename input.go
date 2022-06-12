@@ -26,6 +26,8 @@ func (i Input) GetKey(ui *UI) {
 			if ui.Cursor[0] < len(ui.FileLines[ui.Cursor[1]])-1 {
 				ui.Cursor[0]++
 			}
+		case tb.KeyCtrlQ:
+			ui.Exit = true
 		}
 	}
 
