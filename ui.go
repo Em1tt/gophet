@@ -11,8 +11,8 @@ type Color struct {
 }
 
 type UI struct {
-	FileName, FileContent, Command                                         string
-	FileLines                                                              []string
+	FileName, Command                                                      string
+	FileContent                                                            []string
 	Width, Height, RulerPadding                                            int
 	FileModified, Exit                                                     bool
 	InfoBarColor, TextFieldColor, RulerColor, CommandBarColor, CursorColor Color
@@ -61,10 +61,10 @@ func (ui UI) DrawInfoBar() {
 }
 
 func (ui *UI) DrawTextField() {
-	ui.RulerPadding = len(strconv.Itoa(len(ui.FileLines))) + 1
+	ui.RulerPadding = len(strconv.Itoa(len(ui.FileContent))) + 1
 
 	// print ruler
-	for l := 1; l < len(ui.FileLines); l++ {
+	for l := 1; l < len(ui.FileContent); l++ {
 		tbprint(0, l, strconv.Itoa(l), ui.RulerColor)
 	}
 
@@ -75,12 +75,15 @@ func (ui *UI) DrawTextField() {
 		}
 	}
 
-	tbprint(ui.RulerPadding, 1, ui.FileContent, ui.TextFieldColor)
+	for y, line := range ui.FileContent {
+		tbprint(ui.RulerPadding, y+1, line, ui.TextFieldColor)
+	}
+
 	x, y := ui.Cursor[0], ui.Cursor[1]
-	if ui.FileLines[y] == "" {
+	if ui.FileContent[y] == "" {
 		return
 	}
-	tbputchar(ui.RulerPadding+x, y+1, rune(ui.FileLines[y][x]), ui.CursorColor)
+	tbputchar(ui.RulerPadding+x, y+1, rune(ui.FileContent[y][x]), ui.CursorColor)
 }
 
 func (ui UI) DrawCommandBar() {

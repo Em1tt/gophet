@@ -15,7 +15,7 @@ func (i Input) GetKey(ui *UI) {
 				ui.Cursor[1]--
 			}
 		case tb.KeyArrowDown:
-			if ui.Cursor[1] < len(ui.FileLines)-1 {
+			if ui.Cursor[1] < len(ui.FileContent)-1 {
 				ui.Cursor[1]++
 			}
 		case tb.KeyArrowLeft:
@@ -23,17 +23,20 @@ func (i Input) GetKey(ui *UI) {
 				ui.Cursor[0]--
 			}
 		case tb.KeyArrowRight:
-			if ui.Cursor[0] < len(ui.FileLines[ui.Cursor[1]])-1 {
+			if ui.Cursor[0] < len(ui.FileContent[ui.Cursor[1]])-1 {
 				ui.Cursor[0]++
 			}
 		case tb.KeyCtrlQ:
 			ui.Exit = true
+
+//		default:
+//			ui.FileContent[ui.Cursor[1]][ui.Cursor[0]] = event.Ch
 		}
 	}
 
 	// fix cursor position
-	if len(ui.FileLines[ui.Cursor[1]]) < ui.Cursor[0] {
-		ui.Cursor[0] = len(ui.FileLines[ui.Cursor[1]]) - 1
+	if len(ui.FileContent[ui.Cursor[1]]) < ui.Cursor[0] {
+		ui.Cursor[0] = len(ui.FileContent[ui.Cursor[1]]) - 1
 	}
 	if ui.Cursor[0] < 0 {
 		ui.Cursor[0] = 0

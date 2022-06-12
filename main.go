@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	tb "github.com/nsf/termbox-go"
 	"os"
 	"strings"
@@ -9,12 +8,6 @@ import (
 )
 
 // all UI features are defined in ui.go
-func check(err error) {
-	if err != nil {
-		panic(err.Error())
-	}
-}
-
 var (
 	f     os.File
 	fname string
@@ -24,30 +17,18 @@ var (
 
 func main() {
 	if len(os.Args) > 1 {
-		fname = os.Args[1]
-		// boring file reading stuff
-		f, err := os.Open(fname)
-		check(err)
-		defer f.Close()
-
-		fstat, err := f.Stat()
-		check(err)
-
-		// TODO: possibly optimize this for bigger files
-		buf := bufio.NewReader(f)
-		src, err = buf.Peek(int(fstat.Size()))
-		check(err)
+		fname, src = os.Args[1], fopen(os.Args[1])
 	} else {
 		src = []byte(`
 welcome to gophet!
 
   - this project is in its earliest stage
-  - report any bugs directly to me
   - everything you currently see on screen is subject to change
   - right now you can't open files from this menu
   - to open a file, run this from your command line:
       on windows:   gophet.exe [filename] 
       on linux/mac: ./gophet [filename]
+  - to exit, press Ctrl + Q
   `)
 	}
 
@@ -59,9 +40,8 @@ welcome to gophet!
 	// TODO: fix this mess
 	ui := UI{
 		FileName:        fname,
-		FileContent:     string(src),
 		Command:         "",
-		FileLines:       strings.Split(string(src), "\n"),
+		FileContent:     strings.Split(string(src), "\n"),
 		Width:           width,
 		Height:          height,
 		FileModified:    false,
