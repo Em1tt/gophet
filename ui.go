@@ -11,12 +11,12 @@ type Color struct {
 }
 
 type UI struct {
-	FileName, FileContent, Command                            string
-	FileLines                                                 []string
-	Width, Height, RulerPadding                               int
-	FileModified                                              bool
+	FileName, FileContent, Command                                         string
+	FileLines                                                              []string
+	Width, Height, RulerPadding                                            int
+	FileModified                                                           bool
 	InfoBarColor, TextFieldColor, RulerColor, CommandBarColor, CursorColor Color
-	Cursor                                                    []int
+	Cursor                                                                 []int
 }
 
 func splitColor(col []Color) (tb.Attribute, tb.Attribute) {
@@ -75,12 +75,11 @@ func (ui *UI) DrawTextField() {
 		}
 	}
 
-
 	tbprint(ui.RulerPadding, 1, ui.FileContent, ui.TextFieldColor)
-  x, y := ui.Cursor[0], ui.Cursor[1]
-  if ui.FileLines[y] == "" {
-    return
-  }
+	x, y := ui.Cursor[0], ui.Cursor[1]
+	if ui.FileLines[y] == "" {
+		return
+	}
 	tbputchar(ui.RulerPadding+x, y+1, rune(ui.FileLines[y][x]), ui.CursorColor)
 }
 

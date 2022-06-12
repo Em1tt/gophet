@@ -29,11 +29,11 @@ func (i Input) GetKey(ui *UI) {
 		}
 	}
 
-  // fix cursor position
-  if len(ui.FileLines[ui.Cursor[1]]) < ui.Cursor[0] {
-    ui.Cursor[0] = len(ui.FileLines[ui.Cursor[1]])-1
-  }
-  if ui.Cursor[0] < 0 {
-    ui.Cursor[0] = 0
-  }
+	// fix cursor position
+	if len(ui.FileLines[ui.Cursor[1]]) < ui.Cursor[0] {
+		ui.Cursor[0] = len(ui.FileLines[ui.Cursor[1]]) - 1
+	}
+	if ui.Cursor[0] < 0 {
+		ui.Cursor[0] = 0
+	}
 }

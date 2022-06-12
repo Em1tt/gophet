@@ -69,7 +69,7 @@ welcome to gophet!
 		TextFieldColor:  Color{tb.ColorBlack, tb.ColorWhite},
 		RulerColor:      Color{tb.ColorBlack, tb.ColorLightGray},
 		CommandBarColor: Color{tb.ColorWhite, tb.ColorBlack},
-    CursorColor:     Color{tb.ColorWhite, tb.ColorDefault},
+		CursorColor:     Color{tb.ColorWhite, tb.ColorDefault},
 		Cursor:          []int{0, 0},
 	}
 
