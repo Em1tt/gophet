@@ -13,7 +13,7 @@ type Color struct {
 type UI struct {
 	FileName, Command                                                      string
 	FileContent                                                            []string
-	Width, Height, RulerPadding                                            int
+	Width, Height, RulerPadding, TabSize                                   int
 	FileModified, Exit                                                     bool
 	InfoBarColor, TextFieldColor, RulerColor, CommandBarColor, CursorColor Color
 	Cursor                                                                 []int

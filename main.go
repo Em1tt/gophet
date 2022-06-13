@@ -16,6 +16,15 @@ var (
 	err   error
 )
 
+// TODO: put this into a separate file
+var (
+	ibc = Color{tb.ColorWhite, tb.ColorBlack}
+	tfc = Color{tb.ColorBlack, tb.ColorWhite}
+	rc  = Color{tb.ColorBlack, tb.ColorLightGray}
+	cbc = Color{tb.ColorWhite, tb.ColorBlack}
+	cc  = Color{tb.ColorWhite, tb.ColorDefault}
+)
+
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if len(os.Args) > 1 {
@@ -43,16 +52,17 @@ func main() {
 		FileContent:     strings.Split(string(src), "\n"),
 		Width:           width,
 		Height:          height,
-		InfoBarColor:    Color{tb.ColorWhite, tb.ColorBlack},
-		TextFieldColor:  Color{tb.ColorBlack, tb.ColorWhite},
-		RulerColor:      Color{tb.ColorBlack, tb.ColorLightGray},
-		CommandBarColor: Color{tb.ColorWhite, tb.ColorBlack},
-		CursorColor:     Color{tb.ColorWhite, tb.ColorDefault},
+		TabSize:         4,
+		InfoBarColor:    ibc,
+		TextFieldColor:  tfc,
+		RulerColor:      rc,
+		CommandBarColor: cbc,
+		CursorColor:     cc,
 		Cursor:          []int{0, 0},
 	}
 
 	// init input
-	input := Input{}
+	input := Input{&ui}
 	tb.SetInputMode(tb.InputAlt)
 
 	for {
@@ -69,7 +79,7 @@ func main() {
 		ui.DrawCommandBar()
 
 		tb.Flush()
-		input.GetKey(&ui)
+		input.GetKey()
 		// TODO: lower this when idle
 		// this is probably not needed though, since input.GetKey() is blocking
 		// time.Sleep(16 * time.Millisecond)

@@ -4,38 +4,40 @@ import (
 	tb "github.com/nsf/termbox-go"
 )
 
-type Input struct{}
+type Input struct{
+  ui *UI
+}
 
-func (i Input) GetKey(ui *UI) {
+func (i Input) GetKey() {
 	switch event := tb.PollEvent(); event.Type {
 	case tb.EventKey:
 		switch event.Key {
 		case tb.KeyArrowUp:
-			if ui.Cursor[1] > 0 {
-				ui.Cursor[1]--
+			if i.ui.Cursor[1] > 0 {
+				i.ui.Cursor[1]--
 			}
 		case tb.KeyArrowDown:
-			if ui.Cursor[1] < len(ui.FileContent)-1 {
-				ui.Cursor[1]++
+			if i.ui.Cursor[1] < len(i.ui.FileContent)-1 {
+				i.ui.Cursor[1]++
 			}
 		case tb.KeyArrowLeft:
-			if ui.Cursor[0] > 0 {
-				ui.Cursor[0]--
+			if i.ui.Cursor[0] > 0 {
+				i.ui.Cursor[0]--
 			}
 		case tb.KeyArrowRight:
-			if ui.Cursor[0] < len(ui.FileContent[ui.Cursor[1]])-1 {
-				ui.Cursor[0]++
+			if i.ui.Cursor[0] < len(i.ui.FileContent[i.ui.Cursor[1]])-1 {
+				i.ui.Cursor[0]++
 			}
 		case tb.KeyCtrlQ:
-			ui.Exit = true
+			i.ui.Exit = true
 		}
 	}
 
 	// fix cursor position
-	if len(ui.FileContent[ui.Cursor[1]]) < ui.Cursor[0] {
-		ui.Cursor[0] = len(ui.FileContent[ui.Cursor[1]]) - 1
+	if len(i.ui.FileContent[i.ui.Cursor[1]]) < i.ui.Cursor[0] {
+		i.ui.Cursor[0] = len(i.ui.FileContent[i.ui.Cursor[1]]) - 1
 	}
-	if ui.Cursor[0] < 0 {
-		ui.Cursor[0] = 0
+	if i.ui.Cursor[0] < 0 {
+		i.ui.Cursor[0] = 0
 	}
 }
