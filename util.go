@@ -18,7 +18,7 @@ func fopen(fname string) []byte {
 
 	fstat, err := f.Stat()
 	check(err)
-  size := int(fstat.Size())
+	size := int(fstat.Size())
 
 	// TODO: make this better, if possible
 	buf := bufio.NewReaderSize(f, size)

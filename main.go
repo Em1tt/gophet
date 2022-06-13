@@ -40,12 +40,9 @@ welcome to gophet!
 	// TODO: fix this mess
 	ui := UI{
 		FileName:        fname,
-		Command:         "",
 		FileContent:     strings.Split(string(src), "\n"),
 		Width:           width,
 		Height:          height,
-		FileModified:    false,
-		Exit:            false,
 		InfoBarColor:    Color{tb.ColorWhite, tb.ColorBlack},
 		TextFieldColor:  Color{tb.ColorBlack, tb.ColorWhite},
 		RulerColor:      Color{tb.ColorBlack, tb.ColorLightGray},
