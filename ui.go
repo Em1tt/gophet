@@ -64,7 +64,7 @@ func (ui *UI) DrawTextField() {
 	ui.RulerPadding = len(strconv.Itoa(len(ui.FileContent))) + 1
 
 	// print ruler
-	for l := 1; l < len(ui.FileContent); l++ {
+	for l := 1; l < len(ui.FileContent)+1; l++ {
 		tbprint(0, l, strconv.Itoa(l), ui.RulerColor)
 	}
 
@@ -83,7 +83,6 @@ func (ui *UI) DrawTextField() {
 	if ui.FileContent[y] == "" {
 		return
 	}
-	//	tbputchar(ui.RulerPadding+x, y+1, rune(ui.FileContent[y][x]), ui.CursorColor)
 	x, y = ui.RulerPadding+x, y+1
 	tbputchar(x, y, tb.GetCell(x, y).Ch, ui.CursorColor)
 }
