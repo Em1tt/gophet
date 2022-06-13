@@ -40,7 +40,7 @@ func (ui UI) TBPrint(x, y int, text string, col ...Color) {
 		case '\n':
 			cx, cy = x, cy+1
 		case '\t':
-			cx += ui.TabSize - 1
+			cx += ui.TabSize
 		}
 		tb.SetCell(cx, cy, char, fg, bg)
 		cx += rw.RuneWidth(char)
