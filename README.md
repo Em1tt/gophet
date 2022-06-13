@@ -8,5 +8,5 @@ if you provide none, it will compile for your configuration.
 
 example:
 ```console
-$ ./build.sh windows amd64
+$ ./script/build.sh windows amd64
 ```
