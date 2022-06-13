@@ -19,21 +19,15 @@ type UI struct {
 	Cursor                                                                 []int
 }
 
-func splitColor(col []Color) (tb.Attribute, tb.Attribute) {
-	var (
-		bg, fg tb.Attribute
-	)
-
-	bg = tb.ColorDefault
-	if len(col) == 1 {
-		bg, fg = col[0].BG, col[0].FG
-	}
-	return bg, fg
+func splitColor(col Color) (tb.Attribute, tb.Attribute) {
+	return col.FG, col.BG
 }
 
-func (ui UI) TBPrint(x, y int, text string, col ...Color) {
-	bg, fg := splitColor(col)
-	cx, cy := x, y
+func (ui UI) TBPrint(x, y int, text string, col Color) {
+	var (
+		fg, bg = splitColor(col)
+		cx, cy = x, y
+	)
 
 	for _, char := range text {
 		switch char {
@@ -47,8 +41,8 @@ func (ui UI) TBPrint(x, y int, text string, col ...Color) {
 	}
 }
 
-func (ui UI) TBPutChar(x, y int, char rune, col ...Color) {
-	bg, fg := splitColor(col)
+func (ui UI) TBPutChar(x, y int, char rune, col Color) {
+	fg, bg := splitColor(col)
 	tb.SetCell(x, y, char, fg, bg)
 }
 
