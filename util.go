@@ -2,12 +2,13 @@ package main
 
 import (
 	"bufio"
-  "os"
+	"os"
 )
 
 func check(err error) {
 	if err != nil {
-		panic(err)
+		println(err.Error())
+		os.Exit(1)
 	}
 }
 
