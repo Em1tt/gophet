@@ -31,33 +31,36 @@ func splitColor(col []Color) (tb.Attribute, tb.Attribute) {
 	return bg, fg
 }
 
-func tbprint(x, y int, text string, col ...Color) {
+func (ui UI) TBPrint(x, y int, text string, col ...Color) {
 	bg, fg := splitColor(col)
 	cx, cy := x, y
 
 	for _, char := range text {
-		if char == '\n' {
-			cx, cy = x, cy+1
+    switch char {
+    case '\n':
+      cx, cy = x, cy+1
+    case '\t':
+      cx += ui.TabSize-1
 		}
 		tb.SetCell(cx, cy, char, fg, bg)
 		cx += rw.RuneWidth(char)
 	}
 }
 
-func tbputchar(x, y int, char rune, col ...Color) {
+func (ui UI) TBPutChar(x, y int, char rune, col ...Color) {
 	bg, fg := splitColor(col)
 	tb.SetCell(x, y, char, fg, bg)
 }
 
 func (ui UI) DrawInfoBar() {
 	for i := 0; i < ui.Width; i++ {
-		tbputchar(i, 0, ' ', ui.InfoBarColor)
+		ui.TBPutChar(i, 0, ' ', ui.InfoBarColor)
 	}
 
 	if ui.FileModified {
-		tbprint(0, 0, "[*]", ui.InfoBarColor)
+		ui.TBPrint(0, 0, "[*]", ui.InfoBarColor)
 	}
-	tbprint(4, 0, ui.FileName, ui.InfoBarColor)
+	ui.TBPrint(4, 0, ui.FileName, ui.InfoBarColor)
 }
 
 func (ui *UI) DrawTextField() {
@@ -65,18 +68,18 @@ func (ui *UI) DrawTextField() {
 
 	// print ruler
 	for l := 1; l < len(ui.FileContent)+1; l++ {
-		tbprint(0, l, strconv.Itoa(l), ui.RulerColor)
+		ui.TBPrint(0, l, strconv.Itoa(l), ui.RulerColor)
 	}
 
 	// colour background
 	for x := ui.RulerPadding; x < ui.Width; x++ {
 		for y := 1; y < ui.Height; y++ {
-			tbputchar(x, y, ' ', ui.TextFieldColor)
+			ui.TBPutChar(x, y, ' ', ui.TextFieldColor)
 		}
 	}
 
 	for y, line := range ui.FileContent {
-		tbprint(ui.RulerPadding, y+1, line, ui.TextFieldColor)
+		ui.TBPrint(ui.RulerPadding, y+1, line, ui.TextFieldColor)
 	}
 
 	x, y := ui.Cursor[0], ui.Cursor[1]
@@ -84,13 +87,13 @@ func (ui *UI) DrawTextField() {
 		return
 	}
 	x, y = ui.RulerPadding+x, y+1
-	tbputchar(x, y, tb.GetCell(x, y).Ch, ui.CursorColor)
+	ui.TBPutChar(x, y, tb.GetCell(x, y).Ch, ui.CursorColor)
 }
 
 func (ui UI) DrawCommandBar() {
 	// clear space
 	for i := 0; i < ui.Width; i++ {
-		tbputchar(i, ui.Height-1, ' ', ui.CommandBarColor)
+		ui.TBPutChar(i, ui.Height-1, ' ', ui.CommandBarColor)
 	}
-	tbprint(0, ui.Height-1, ui.Command, ui.CommandBarColor)
+	ui.TBPrint(0, ui.Height-1, ui.Command, ui.CommandBarColor)
 }
