@@ -4,6 +4,7 @@ import (
 	rw "github.com/mattn/go-runewidth"
 	tb "github.com/nsf/termbox-go"
 	"strconv"
+	"time"
 )
 
 type Color struct {
@@ -15,18 +16,19 @@ type UI struct {
 	// TODO: convert to strings.Builder
 	FileContent                                                            []string
 	Width, Height, RulerPadding, TabSize                                   int
+	InputDelay, DrawDelay                                                  time.Duration
 	FileModified, Exit                                                     bool
 	InfoBarColor, TextFieldColor, RulerColor, CommandBarColor, CursorColor Color
 	Cursor                                                                 []int
 }
 
-func splitColor(col Color) (tb.Attribute, tb.Attribute) {
+func (ui UI) SplitColor(col Color) (tb.Attribute, tb.Attribute) {
 	return col.FG, col.BG
 }
 
 func (ui UI) TBPrint(x, y int, text string, col Color) {
 	var (
-		fg, bg = splitColor(col)
+		fg, bg = ui.SplitColor(col)
 		cx, cy = x, y
 	)
 
@@ -43,7 +45,7 @@ func (ui UI) TBPrint(x, y int, text string, col Color) {
 }
 
 func (ui UI) TBPutChar(x, y int, char rune, col Color) {
-	fg, bg := splitColor(col)
+	fg, bg := ui.SplitColor(col)
 	tb.SetCell(x, y, char, fg, bg)
 }
 

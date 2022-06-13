@@ -3,9 +3,8 @@ package main
 import (
 	tb "github.com/nsf/termbox-go"
 	"os"
-	"runtime"
 	"strings"
-	//	"time"
+	"time"
 )
 
 // all UI features are defined in ui.go
@@ -17,11 +16,13 @@ var (
 
 // TODO: put this into a separate file
 var (
-	ibc = Color{tb.ColorWhite, tb.ColorBlack}
-	tfc = Color{tb.ColorBlack, tb.ColorWhite}
-	rc  = Color{tb.ColorBlack, tb.ColorLightGray}
-	cbc = Color{tb.ColorWhite, tb.ColorBlack}
-	cc  = Color{tb.ColorWhite, tb.ColorDefault}
+	ibc        = Color{tb.ColorWhite, tb.ColorBlack}
+	tfc        = Color{tb.ColorBlack, tb.ColorWhite}
+	rc         = Color{tb.ColorBlack, tb.ColorLightGray}
+	cbc        = Color{tb.ColorWhite, tb.ColorBlack}
+	cc         = Color{tb.ColorWhite, tb.ColorDefault}
+	inputDelay = 32
+	drawDelay  = 16
 )
 
 func main() {
@@ -33,7 +34,7 @@ func main() {
   - this project is in its earliest stage
   - everything you currently see on screen is subject to change
   - right now you can't open files from this menu
-  - to exit, press Ctrl + Q`
+  - to exit, press Esc`
 	}
 
 	// init ui
@@ -48,6 +49,8 @@ func main() {
 		Width:           width,
 		Height:          height,
 		TabSize:         4,
+		InputDelay:      time.Duration(inputDelay),
+		DrawDelay:       time.Duration(drawDelay),
 		InfoBarColor:    ibc,
 		TextFieldColor:  tfc,
 		RulerColor:      rc,
@@ -57,27 +60,35 @@ func main() {
 	}
 
 	// init input
-	input := Input{&ui}
-	tb.SetInputMode(tb.InputAlt)
+	input := Input{
+		Ui: &ui,
+	}
+	tb.SetInputMode(tb.InputEsc)
 
-	runtime.GC()
+	clearColFG, clearColBG := ui.SplitColor(tfc)
+
+	go func() {
+		for {
+			input.Event = tb.PollEvent()
+			input.GetKey()
+			time.Sleep(ui.InputDelay * time.Millisecond)
+		}
+	}()
+
 	for {
 		if ui.Exit {
 			break
 		}
+
 		// resize
 		ui.Width, ui.Height = tb.Size()
-		err = tb.Clear(tb.ColorDefault, tb.ColorDefault)
+		tb.Clear(clearColFG, clearColBG)
 
-		check(err)
 		ui.DrawTextField()
 		ui.DrawInfoBar()
 		ui.DrawCommandBar()
 
 		tb.Flush()
-		input.GetKey()
-		// TODO: lower this when idle
-		// this is probably not needed though, since input.GetKey() is blocking
-		// time.Sleep(16 * time.Millisecond)
+		time.Sleep(ui.DrawDelay * time.Millisecond)
 	}
 }

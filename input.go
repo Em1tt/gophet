@@ -5,39 +5,40 @@ import (
 )
 
 type Input struct {
-	ui *UI
+	Ui    *UI
+	Event tb.Event
 }
 
 func (i Input) GetKey() {
-	switch event := tb.PollEvent(); event.Type {
+	switch i.Event.Type {
 	case tb.EventKey:
-		switch event.Key {
+		switch i.Event.Key {
 		case tb.KeyArrowUp:
-			if i.ui.Cursor[1] > 0 {
-				i.ui.Cursor[1]--
+			if i.Ui.Cursor[1] > 0 {
+				i.Ui.Cursor[1]--
 			}
 		case tb.KeyArrowDown:
-			if i.ui.Cursor[1] < len(i.ui.FileContent)-1 {
-				i.ui.Cursor[1]++
+			if i.Ui.Cursor[1] < len(i.Ui.FileContent)-1 {
+				i.Ui.Cursor[1]++
 			}
 		case tb.KeyArrowLeft:
-			if i.ui.Cursor[0] > 0 {
-				i.ui.Cursor[0]--
+			if i.Ui.Cursor[0] > 0 {
+				i.Ui.Cursor[0]--
 			}
 		case tb.KeyArrowRight:
-			if i.ui.Cursor[0] < len(i.ui.FileContent[i.ui.Cursor[1]])-1 {
-				i.ui.Cursor[0]++
+			if i.Ui.Cursor[0] < len(i.Ui.FileContent[i.Ui.Cursor[1]])-1 {
+				i.Ui.Cursor[0]++
 			}
-		case tb.KeyCtrlQ:
-			i.ui.Exit = true
+		case tb.KeyEsc:
+			i.Ui.Exit = true
 		}
 	}
 
 	// fix cursor position
-	if len(i.ui.FileContent[i.ui.Cursor[1]]) < i.ui.Cursor[0] {
-		i.ui.Cursor[0] = len(i.ui.FileContent[i.ui.Cursor[1]]) - 1
+	if len(i.Ui.FileContent[i.Ui.Cursor[1]]) < i.Ui.Cursor[0] {
+		i.Ui.Cursor[0] = len(i.Ui.FileContent[i.Ui.Cursor[1]]) - 1
 	}
-	if i.ui.Cursor[0] < 0 {
-		i.ui.Cursor[0] = 0
+	if i.Ui.Cursor[0] < 0 {
+		i.Ui.Cursor[0] = 0
 	}
 }
