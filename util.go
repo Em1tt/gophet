@@ -2,13 +2,12 @@ package main
 
 import (
 	"bufio"
-	"log"
-	"os"
+  "os"
 )
 
 func check(err error) {
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 }
 
