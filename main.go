@@ -21,8 +21,7 @@ func main() {
 	if len(os.Args) > 1 {
 		fname, src = os.Args[1], fopen(os.Args[1])
 	} else {
-		src = []byte(`
-welcome to gophet!
+		src = []byte(`welcome to gophet!
 
   - this project is in its earliest stage
   - everything you currently see on screen is subject to change
@@ -30,8 +29,7 @@ welcome to gophet!
   - to open a file, run this from your command line:
       on windows:   gophet.exe [filename] 
       on linux/mac: ./gophet [filename]
-  - to exit, press Ctrl + Q
-  `)
+  - to exit, press Ctrl + Q`)
 	}
 
 	// init ui
