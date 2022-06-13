@@ -1,11 +1,11 @@
 #!/bin/sh
-os=$1
-arch=$2
+os="$1"
+arch="$2"
 
-if [ !os ]; then
+if [ -z "$1" ]; then
   os=`go env GOHOSTOS`
 fi
-if [ !arch ]; then
+if [ -z "$2" ]; then
   arch=`go env GOHOSTARCH`
 fi
 
