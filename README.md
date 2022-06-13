@@ -2,10 +2,11 @@
 text editor with focus on speed and compatibility
 
 ## building
+run the build script for your platform with OS and ARCH as its arguments.
+
+if you provide none, it will compile for your configuration.
+
+example:
 ```console
-$ ./build.sh [os] [arch]
+$ ./build.sh windows amd64
 ```
-
-this should generate a file that has OS and architecture names in its name.
-
-you can run the script without any arguments, and it will build for your setup
