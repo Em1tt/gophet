@@ -36,11 +36,11 @@ func (ui UI) TBPrint(x, y int, text string, col ...Color) {
 	cx, cy := x, y
 
 	for _, char := range text {
-    switch char {
-    case '\n':
-      cx, cy = x, cy+1
-    case '\t':
-      cx += ui.TabSize-1
+		switch char {
+		case '\n':
+			cx, cy = x, cy+1
+		case '\t':
+			cx += ui.TabSize - 1
 		}
 		tb.SetCell(cx, cy, char, fg, bg)
 		cx += rw.RuneWidth(char)
