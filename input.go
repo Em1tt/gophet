@@ -4,8 +4,8 @@ import (
 	tb "github.com/nsf/termbox-go"
 )
 
-type Input struct{
-  ui *UI
+type Input struct {
+	ui *UI
 }
 
 func (i Input) GetKey() {
