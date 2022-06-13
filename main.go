@@ -3,16 +3,16 @@ package main
 import (
 	tb "github.com/nsf/termbox-go"
 	"os"
+	"runtime"
 	"strings"
 	//	"time"
 )
 
 // all UI features are defined in ui.go
 var (
-	f     os.File
-	fname string
-	src   []byte
-	err   error
+	f          os.File
+	fname, src string
+	err        error
 )
 
 // TODO: put this into a separate file
@@ -28,15 +28,12 @@ func main() {
 	if len(os.Args) > 1 {
 		fname, src = os.Args[1], fopen(os.Args[1])
 	} else {
-		src = []byte(`welcome to gophet!
+		src = `welcome to gophet!
 
   - this project is in its earliest stage
   - everything you currently see on screen is subject to change
   - right now you can't open files from this menu
-  - to open a file, run this from your command line:
-      on windows:   gophet.exe [filename] 
-      on linux/mac: ./gophet [filename]
-  - to exit, press Ctrl + Q`)
+  - to exit, press Ctrl + Q`
 	}
 
 	// init ui
@@ -47,7 +44,7 @@ func main() {
 	// TODO: fix this mess
 	ui := UI{
 		FileName:        fname,
-		FileContent:     strings.Split(string(src), "\n"),
+		FileContent:     strings.SplitAfter(src, "\n"),
 		Width:           width,
 		Height:          height,
 		TabSize:         4,
@@ -63,6 +60,7 @@ func main() {
 	input := Input{&ui}
 	tb.SetInputMode(tb.InputAlt)
 
+	runtime.GC()
 	for {
 		if ui.Exit {
 			break

@@ -12,7 +12,7 @@ func check(err error) {
 	}
 }
 
-func fopen(fname string) []byte {
+func fopen(fname string) string {
 	f, err := os.Open(fname)
 	check(err)
 	defer f.Close()
@@ -23,8 +23,8 @@ func fopen(fname string) []byte {
 
 	// TODO: make this better, if possible
 	buf := bufio.NewReaderSize(f, size)
-	src, err = buf.Peek(size)
+	content, err := buf.Peek(size)
 	check(err)
 
-	return src
+	return string(content)
 }

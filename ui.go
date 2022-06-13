@@ -11,7 +11,8 @@ type Color struct {
 }
 
 type UI struct {
-	FileName, Command                                                      string
+	FileName, Command string
+	// TODO: convert to strings.Builder
 	FileContent                                                            []string
 	Width, Height, RulerPadding, TabSize                                   int
 	FileModified, Exit                                                     bool
