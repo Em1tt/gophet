@@ -3,7 +3,9 @@ text editor with focus on speed and compatibility
 
 ## building
 ```console
-$ env GOOS=[os] GOARCH=[arch] ./build.sh
+$ ./build.sh [os] [arch]
 ```
 
-this should generate a file that has OS and architecture info in its name
+this should generate a file that has OS and architecture names in its name.
+
+you can run the script without any arguments, and it will build for your setup
