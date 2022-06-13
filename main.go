@@ -21,7 +21,7 @@ var (
 	rc         = Color{tb.ColorBlack, tb.ColorLightGray}
 	cbc        = Color{tb.ColorWhite, tb.ColorBlack}
 	cc         = Color{tb.ColorWhite, tb.ColorDefault}
-	inputDelay = 32
+	inputDelay = 16
 	drawDelay  = 16
 )
 
@@ -66,29 +66,24 @@ func main() {
 	tb.SetInputMode(tb.InputEsc)
 
 	clearColFG, clearColBG := ui.SplitColor(tfc)
-
 	go func() {
-		for {
-			input.Event = tb.PollEvent()
-			input.GetKey()
-			time.Sleep(ui.InputDelay * time.Millisecond)
+		for !ui.Exit {
+			// resize
+			ui.Width, ui.Height = tb.Size()
+			tb.Clear(clearColFG, clearColBG)
+
+			ui.DrawTextField()
+			ui.DrawInfoBar()
+			ui.DrawCommandBar()
+
+			go tb.Flush()
+			time.Sleep(ui.DrawDelay * time.Millisecond)
 		}
 	}()
 
-	for {
-		if ui.Exit {
-			break
-		}
-
-		// resize
-		ui.Width, ui.Height = tb.Size()
-		tb.Clear(clearColFG, clearColBG)
-
-		ui.DrawTextField()
-		ui.DrawInfoBar()
-		ui.DrawCommandBar()
-
-		tb.Flush()
-		time.Sleep(ui.DrawDelay * time.Millisecond)
+	for !ui.Exit {
+		input.Event = tb.PollEvent()
+		input.GetKey()
+		time.Sleep(ui.InputDelay * time.Millisecond)
 	}
 }
