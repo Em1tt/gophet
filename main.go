@@ -2,6 +2,7 @@ package main
 
 import (
 	tb "github.com/nsf/termbox-go"
+	"log"
 	"os"
 	"strings"
 	//	"time"
@@ -16,6 +17,7 @@ var (
 )
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if len(os.Args) > 1 {
 		fname, src = os.Args[1], fopen(os.Args[1])
 	} else {
