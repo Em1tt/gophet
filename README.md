@@ -16,7 +16,7 @@ every `Delay` property is provided in milliseconds.
     "InfoBar":    [[0  , 0  , 0  ], [255, 255, 255]],
     "TextField":  [[0  , 0  , 0  ], [255, 255, 255]],
     "Cursor":     [[255, 255, 255], [0  , 0  , 0  ]],
-    "Ruler":      [[0  , 0  , 0  ], [255, 255, 255]],
+    "Ruler":      [[0  , 0  , 0  ], [155, 155, 155]],
     "CommandBar": [[0  , 0  , 0  ], [255, 255, 255]]
   },
   "Delay": {
