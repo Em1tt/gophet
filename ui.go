@@ -51,9 +51,9 @@ func (ui UI) DrawInfoBar() {
 	}
 
 	if ui.FileModified {
-		ui.Print(0, 0, "[*]", ui.InfoBarColor)
+		ui.PutChar(0, 0, '*', ui.InfoBarColor)
 	}
-	ui.Print(4, 0, ui.FileName, ui.InfoBarColor)
+	ui.Print(2, 0, ui.FileName, ui.InfoBarColor)
 }
 
 // Draws the text field with ruler and UI.FileContent
@@ -76,11 +76,7 @@ func (ui *UI) DrawTextField() {
 		ui.Print(ui.RulerPadding, y+1, line, ui.TextFieldColor)
 	}
 
-	x, y := ui.Cursor[0], ui.Cursor[1]
-	if ui.FileContent[y] == "" {
-		return
-	}
-	x, y = ui.RulerPadding+x, y+1
+	x, y := ui.Cursor[0]+ui.RulerPadding, ui.Cursor[1]+1
 	ui.PutChar(x, y, tb.GetCell(x, y).Ch, ui.CursorColor)
 }
 
