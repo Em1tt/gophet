@@ -4,26 +4,28 @@ import (
 	"bufio"
 	"encoding/json"
 	"os"
+
+	tb "github.com/nsf/termbox-go"
 )
 
-// Same as Color, but with RGB color
-type RGBColor struct {
-	fg, bg [3]uint8
+type color struct {
+	InfoBar    [2][3]uint8
+	TextField  [2][3]uint8
+  Cursor     [2][3]uint8
+	Ruler      [2][3]uint8
+	CommandBar [2][3]uint8
+}
+
+type delay struct {
+	Input int
+	Draw  int
 }
 
 // Boilerplate for configuration
 type Config struct {
-	Colorscheme map[string]struct {
-		InfoBar    RGBColor `json:"infobar"`
-		TextField  RGBColor `json:"textfield"`
-		Ruler      RGBColor `json:"ruler"`
-		CommandBar RGBColor `json:"commandbar"`
-	} `json:"colorscheme"`
-
-	Delay map[string]struct {
-		Input int `json:"input"`
-		Draw  int `json:"draw"`
-	} `json:"delay"`
+	Color   color
+	Delay   delay
+  TabSize int
 }
 
 // Simple error checking to prettify code
@@ -52,8 +54,17 @@ func fopen[T []byte | string](fname string) T {
 	return T(content)
 }
 
-func readConfig(fname string) Config {
-	src, config := fopen[[]byte](fname), Config{}
+// Reads configuration from fname to config
+func readConfig(fname string, config *Config) {
+	src := fopen[[]byte](fname)
 	check(json.Unmarshal(src, &config))
-	return config
+}
+
+// Converts RGB color used in config.json to Color for use with termbox
+func RGBToTB (col [2][3]uint8) Color {
+  result := make([]tb.Attribute, 2)
+  for i, layer := range col {
+    result[i] = tb.RGBToAttribute(layer[0], layer[1], layer[2])
+  }
+  return Color{result[0], result[1]}
 }

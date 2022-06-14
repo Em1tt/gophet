@@ -1,11 +1,12 @@
 package main
 
 import (
-	tb "github.com/nsf/termbox-go"
 	"os"
 	"runtime"
 	"strings"
 	"time"
+
+	tb "github.com/nsf/termbox-go"
 )
 
 // all UI features are defined in ui.go
@@ -16,16 +17,6 @@ var (
 )
 
 // TODO: put this into a separate file
-var (
-	ibc        = Color{tb.ColorWhite, tb.ColorBlack}
-	tfc        = Color{tb.ColorBlack, tb.ColorWhite}
-	rc         = Color{tb.ColorBlack, tb.ColorLightGray}
-	cbc        = Color{tb.ColorWhite, tb.ColorBlack}
-	cc         = Color{tb.ColorWhite, tb.ColorDefault}
-	inputDelay = 16
-	drawDelay  = 16
-)
-
 func main() {
 	if len(os.Args) > 1 {
 		fname, src = os.Args[1], fopen[string](os.Args[1])
@@ -38,6 +29,23 @@ func main() {
   - to exit, press Esc`
 	}
 
+  // TODO: create some default config instead
+  cfg := Config{
+  color{
+    [2][3]uint8{{0, 0, 0}, {255, 255, 255}},
+    [2][3]uint8{{0, 0, 0}, {255, 255, 255}},
+    [2][3]uint8{{255, 255, 255}, {0, 0, 0}},
+    [2][3]uint8{{0, 0, 0}, {155, 155, 155}},
+    [2][3]uint8{{0, 0, 0}, {255, 255, 255}},
+  },
+  delay{16, 16},
+  4,
+  }
+
+  if _, err := os.Stat("config.json"); !os.IsNotExist(err) {
+    readConfig("config.json", &cfg)
+  }
+
 	// init ui
 	check(tb.Init())
 	defer tb.Close()
@@ -49,16 +57,17 @@ func main() {
 		FileContent:     strings.SplitAfter(src, "\n"),
 		Width:           width,
 		Height:          height,
-		TabSize:         4,
-		InputDelay:      time.Duration(inputDelay),
-		DrawDelay:       time.Duration(drawDelay),
-		InfoBarColor:    ibc,
-		TextFieldColor:  tfc,
-		RulerColor:      rc,
-		CommandBarColor: cbc,
-		CursorColor:     cc,
+		TabSize:         cfg.TabSize,
+		InputDelay:      time.Duration(cfg.Delay.Input),
+		DrawDelay:       time.Duration(cfg.Delay.Draw),
+		InfoBarColor:    RGBToTB(cfg.Color.InfoBar),
+		TextFieldColor:  RGBToTB(cfg.Color.TextField),
+		RulerColor:      RGBToTB(cfg.Color.Ruler),
+		CommandBarColor: RGBToTB(cfg.Color.CommandBar),
+		CursorColor:     RGBToTB(cfg.Color.Cursor),
 		Cursor:          [2]int{0, 0},
 	}
+  tb.SetOutputMode(tb.OutputRGB)
 
 	// init input
 	input := Input{
@@ -67,12 +76,11 @@ func main() {
 	tb.SetInputMode(tb.InputEsc)
 
 	runtime.GC()
-
 	go func() {
 		for !ui.Exit {
 			// resize
 			ui.Width, ui.Height = tb.Size()
-			tb.Clear(tfc.FG, tfc.BG)
+			tb.Clear(ui.TextFieldColor.FG, ui.TextFieldColor.BG)
 
 			ui.DrawTextField()
 			ui.DrawInfoBar()
