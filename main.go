@@ -3,6 +3,7 @@ package main
 import (
 	tb "github.com/nsf/termbox-go"
 	"os"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -64,6 +65,8 @@ func main() {
 		Ui: &ui,
 	}
 	tb.SetInputMode(tb.InputEsc)
+
+	runtime.GC()
 
 	go func() {
 		for !ui.Exit {
