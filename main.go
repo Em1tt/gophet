@@ -65,12 +65,11 @@ func main() {
 	}
 	tb.SetInputMode(tb.InputEsc)
 
-	clearColFG, clearColBG := ui.SplitColor(tfc)
 	go func() {
 		for !ui.Exit {
 			// resize
 			ui.Width, ui.Height = tb.Size()
-			tb.Clear(clearColFG, clearColBG)
+			tb.Clear(tfc.FG, tfc.BG)
 
 			ui.DrawTextField()
 			ui.DrawInfoBar()

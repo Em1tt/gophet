@@ -9,6 +9,7 @@ type Input struct {
 	Event tb.Event
 }
 
+// Parses termbox.Event bound to UI
 func (i Input) GetKey() {
 	switch i.Event.Type {
 	case tb.EventKey:

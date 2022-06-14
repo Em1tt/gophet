@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// Simple error checking to prettify code
 func check(err error) {
 	if err != nil {
 		println(err.Error())
@@ -12,6 +13,7 @@ func check(err error) {
 	}
 }
 
+// Opens a file with name fname and returns its content. Uses bufio
 func fopen(fname string) string {
 	f, err := os.Open(fname)
 	check(err)

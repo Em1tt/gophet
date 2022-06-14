@@ -7,10 +7,12 @@ import (
 	"time"
 )
 
+// Stores background and foreground as termbox.Attribute
 type Color struct {
 	BG, FG tb.Attribute
 }
 
+// TODO: split this
 type UI struct {
 	FileName, Command string
 	// TODO: convert to strings.Builder
@@ -22,16 +24,14 @@ type UI struct {
 	Cursor                                                                 []int
 }
 
-func (ui UI) SplitColor(col Color) (tb.Attribute, tb.Attribute) {
-	return col.FG, col.BG
+// Prints char to the console at (x, y)
+func (ui UI) PutChar(x, y int, char rune, col Color) {
+	tb.SetCell(x, y, char, col.FG, col.BG)
 }
 
-func (ui UI) TBPrint(x, y int, text string, col Color) {
-	var (
-		fg, bg = ui.SplitColor(col)
-		cx, cy = x, y
-	)
-
+// Prints text to the console at (x, y), obeying tabs and newlines
+func (ui UI) Print(x, y int, text string, col Color) {
+  cx, cy := x, y
 	for _, char := range text {
 		switch char {
 		case '\n':
@@ -39,44 +39,41 @@ func (ui UI) TBPrint(x, y int, text string, col Color) {
 		case '\t':
 			cx += ui.TabSize
 		}
-		tb.SetCell(cx, cy, char, fg, bg)
+		ui.PutChar(cx, cy, char, col)
 		cx += rw.RuneWidth(char)
 	}
 }
 
-func (ui UI) TBPutChar(x, y int, char rune, col Color) {
-	fg, bg := ui.SplitColor(col)
-	tb.SetCell(x, y, char, fg, bg)
-}
-
+// Draws the info bar with FileModified, FileName, etc.
 func (ui UI) DrawInfoBar() {
 	for i := 0; i < ui.Width; i++ {
-		ui.TBPutChar(i, 0, ' ', ui.InfoBarColor)
+		ui.PutChar(i, 0, ' ', ui.InfoBarColor)
 	}
 
 	if ui.FileModified {
-		ui.TBPrint(0, 0, "[*]", ui.InfoBarColor)
+		ui.Print(0, 0, "[*]", ui.InfoBarColor)
 	}
-	ui.TBPrint(4, 0, ui.FileName, ui.InfoBarColor)
+	ui.Print(4, 0, ui.FileName, ui.InfoBarColor)
 }
 
+// Draws the text field with ruler and FileContent
 func (ui *UI) DrawTextField() {
 	ui.RulerPadding = len(strconv.Itoa(len(ui.FileContent))) + 1
 
 	// print ruler
 	for l := 1; l < len(ui.FileContent)+1; l++ {
-		ui.TBPrint(0, l, strconv.Itoa(l), ui.RulerColor)
+		ui.Print(0, l, strconv.Itoa(l), ui.RulerColor)
 	}
 
 	// colour background
 	for x := ui.RulerPadding; x < ui.Width; x++ {
 		for y := 1; y < ui.Height; y++ {
-			ui.TBPutChar(x, y, ' ', ui.TextFieldColor)
+			ui.PutChar(x, y, ' ', ui.TextFieldColor)
 		}
 	}
 
 	for y, line := range ui.FileContent {
-		ui.TBPrint(ui.RulerPadding, y+1, line, ui.TextFieldColor)
+		ui.Print(ui.RulerPadding, y+1, line, ui.TextFieldColor)
 	}
 
 	x, y := ui.Cursor[0], ui.Cursor[1]
@@ -84,13 +81,14 @@ func (ui *UI) DrawTextField() {
 		return
 	}
 	x, y = ui.RulerPadding+x, y+1
-	ui.TBPutChar(x, y, tb.GetCell(x, y).Ch, ui.CursorColor)
+	ui.PutChar(x, y, tb.GetCell(x, y).Ch, ui.CursorColor)
 }
 
+// Draws the command bar with Command
 func (ui UI) DrawCommandBar() {
 	// clear space
 	for i := 0; i < ui.Width; i++ {
-		ui.TBPutChar(i, ui.Height-1, ' ', ui.CommandBarColor)
+		ui.PutChar(i, ui.Height-1, ' ', ui.CommandBarColor)
 	}
-	ui.TBPrint(0, ui.Height-1, ui.Command, ui.CommandBarColor)
+	ui.Print(0, ui.Height-1, ui.Command, ui.CommandBarColor)
 }
