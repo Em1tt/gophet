@@ -48,7 +48,7 @@ func fopen[T []byte | string](fname string) T {
 }
 
 func readConfig(fname string) Config {
-  src, config := fopen[[]byte](fname), Config{}
-  check(json.Unmarshal(src, &config))
-  return config
+	src, config := fopen[[]byte](fname), Config{}
+	check(json.Unmarshal(src, &config))
+	return config
 }
