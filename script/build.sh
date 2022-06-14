@@ -19,4 +19,4 @@ go mod verify
 go mod tidy
 
 # build with needed optimization
-env GOOS=$os GORCH=$arch go build -ldflags="-s -w" -gcflags=all="-l -B -C" -trimpath -o "build/$fname"
+env GOOS=$os GOARCH=$arch go build -ldflags="-s -w" -gcflags=all="-l -B -C" -trimpath -o "build/$fname"

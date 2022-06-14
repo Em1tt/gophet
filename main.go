@@ -28,7 +28,7 @@ var (
 
 func main() {
 	if len(os.Args) > 1 {
-		fname, src = os.Args[1], fopen(os.Args[1])
+		fname, src = os.Args[1], fopen[string](os.Args[1])
 	} else {
 		src = `welcome to gophet!
 
