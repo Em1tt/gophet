@@ -11,7 +11,7 @@ import (
 type color struct {
 	InfoBar    [2][3]uint8
 	TextField  [2][3]uint8
-  Cursor     [2][3]uint8
+	Cursor     [2][3]uint8
 	Ruler      [2][3]uint8
 	CommandBar [2][3]uint8
 }
@@ -25,7 +25,7 @@ type delay struct {
 type Config struct {
 	Color   color
 	Delay   delay
-  TabSize int
+	TabSize int
 }
 
 // Simple error checking to prettify code
@@ -61,10 +61,10 @@ func readConfig(fname string, config *Config) {
 }
 
 // Converts RGB color used in config.json to Color for use with termbox
-func RGBToTB (col [2][3]uint8) Color {
-  result := make([]tb.Attribute, 2)
-  for i, layer := range col {
-    result[i] = tb.RGBToAttribute(layer[0], layer[1], layer[2])
-  }
-  return Color{result[0], result[1]}
+func RGBToTB(col [2][3]uint8) Color {
+	result := make([]tb.Attribute, 2)
+	for i, layer := range col {
+		result[i] = tb.RGBToAttribute(layer[0], layer[1], layer[2])
+	}
+	return Color{result[0], result[1]}
 }

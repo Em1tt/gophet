@@ -29,22 +29,22 @@ func main() {
   - to exit, press Esc`
 	}
 
-  // TODO: create some default config instead
-  cfg := Config{
-  color{
-    [2][3]uint8{{0, 0, 0}, {255, 255, 255}},
-    [2][3]uint8{{0, 0, 0}, {255, 255, 255}},
-    [2][3]uint8{{255, 255, 255}, {0, 0, 0}},
-    [2][3]uint8{{0, 0, 0}, {155, 155, 155}},
-    [2][3]uint8{{0, 0, 0}, {255, 255, 255}},
-  },
-  delay{16, 16},
-  4,
-  }
+	// TODO: create some default config instead
+	cfg := Config{
+		color{
+			[2][3]uint8{{0, 0, 0}, {255, 255, 255}},
+			[2][3]uint8{{0, 0, 0}, {255, 255, 255}},
+			[2][3]uint8{{255, 255, 255}, {0, 0, 0}},
+			[2][3]uint8{{0, 0, 0}, {155, 155, 155}},
+			[2][3]uint8{{0, 0, 0}, {255, 255, 255}},
+		},
+		delay{16, 16},
+		4,
+	}
 
-  if _, err := os.Stat("config.json"); !os.IsNotExist(err) {
-    readConfig("config.json", &cfg)
-  }
+	if _, err := os.Stat("config.json"); !os.IsNotExist(err) {
+		readConfig("config.json", &cfg)
+	}
 
 	// init ui
 	check(tb.Init())
@@ -67,7 +67,7 @@ func main() {
 		CursorColor:     RGBToTB(cfg.Color.Cursor),
 		Cursor:          [2]int{0, 0},
 	}
-  tb.SetOutputMode(tb.OutputRGB)
+	tb.SetOutputMode(tb.OutputRGB)
 
 	// init input
 	input := Input{
