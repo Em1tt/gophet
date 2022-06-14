@@ -9,6 +9,10 @@ arch="$2"
 # mahe needed directories if they don't exist
 [ ! -d build ] && mkdir build
 
-# build!
+# verify everything is in place
+go mod vendor
+go mod verify
 go mod tidy
+
+# build with needed optimization
 env GOOS=$os GORCH=$arch go build -ldflags="-s -w" -gcflags=all="-l -B -C" -trimpath -o "build/gophet-$os-$arch"
