@@ -1,10 +1,13 @@
-# gophet
-text editor with focus on speed and compatibility
+# Gophet
 
-## configuring
-you can edit your colourscheme, delays and tab size. by default, everything specified in `config.json` will override gophet defaults - that way, you can change the tab size while keeping the default colourscheme.
+![GitHub repo size](https://img.shields.io/github/repo-size/b1tt0/gophet) ![Lines of code](https://img.shields.io/tokei/lines/github.com/b1tt0/gophet) ![GitHub issues](https://img.shields.io/github/issues-raw/b1tt0/gophet) ![GitHub](https://img.shields.io/github/license/b1tt0/gophet)
 
-every `Color` property is an array - first element stands for background RGB value, second - foreground.
+Text editor made in Go, focused on speed and compatibility
+
+## Configuration
+You can edit your colour scheme, delays and tab size. By default, everything specified in `config.json` will override gophet defaults - that way, you can change the tab size while keeping the default colourscheme.
+
+every `Color` property is an array - first element stands for background RGB value, second for foreground.
 
 every `Delay` property is provided in milliseconds.
 
@@ -27,12 +30,12 @@ every `Delay` property is provided in milliseconds.
 }
 ```
 
-## building
-run the build script for your platform with OS and ARCH as its arguments.
+## Build
+Run the build script for your platform with OS and ARCH as its arguments.
 
-if you provide none, it will compile for your configuration.
+If you provide none, it will compile for your configuration.
 
-example:
+Example:
 ```console
 $ ./script/build.sh windows amd64
 ```
