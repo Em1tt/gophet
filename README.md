@@ -7,6 +7,8 @@ you can edit your colourscheme, delays and tab size. by default, everything spec
 every `Color` property is an array - first element stands for background RGB value, second - foreground.
 
 every `Delay` property is provided in milliseconds.
+
+**please note!** `config.json` has to be in the same folder as the executable.
 ### default
 ```json
 {
