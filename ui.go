@@ -44,7 +44,7 @@ func (ui UI) Print(x, y int, text string, col Color) {
 	}
 }
 
-// Draws the info bar with FileModified, FileName, etc.
+// Draws the info bar with UI.FileModified and UI.FileName
 func (ui UI) DrawInfoBar() {
 	for i := 0; i < ui.Width; i++ {
 		ui.PutChar(i, 0, ' ', ui.InfoBarColor)
@@ -56,7 +56,7 @@ func (ui UI) DrawInfoBar() {
 	ui.Print(4, 0, ui.FileName, ui.InfoBarColor)
 }
 
-// Draws the text field with ruler and FileContent
+// Draws the text field with ruler and UI.FileContent
 func (ui *UI) DrawTextField() {
 	ui.RulerPadding = len(strconv.Itoa(len(ui.FileContent))) + 1
 
@@ -84,7 +84,7 @@ func (ui *UI) DrawTextField() {
 	ui.PutChar(x, y, tb.GetCell(x, y).Ch, ui.CursorColor)
 }
 
-// Draws the command bar with Command
+// Draws the command bar with UI.Command
 func (ui UI) DrawCommandBar() {
 	// clear space
 	for i := 0; i < ui.Width; i++ {
