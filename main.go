@@ -56,7 +56,7 @@ func main() {
 		RulerColor:      rc,
 		CommandBarColor: cbc,
 		CursorColor:     cc,
-		Cursor:          []int{0, 0},
+		Cursor:          [2]int{0, 0},
 	}
 
 	// init input

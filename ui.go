@@ -21,7 +21,7 @@ type UI struct {
 	InputDelay, DrawDelay                                                  time.Duration
 	FileModified, Exit                                                     bool
 	InfoBarColor, TextFieldColor, RulerColor, CommandBarColor, CursorColor Color
-	Cursor                                                                 []int
+	Cursor                                                                 [2]int
 }
 
 // Prints char to the console at (x, y)
@@ -31,7 +31,7 @@ func (ui UI) PutChar(x, y int, char rune, col Color) {
 
 // Prints text to the console at (x, y), obeying tabs and newlines
 func (ui UI) Print(x, y int, text string, col Color) {
-  cx, cy := x, y
+	cx, cy := x, y
 	for _, char := range text {
 		switch char {
 		case '\n':
