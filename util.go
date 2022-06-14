@@ -6,13 +6,18 @@ import (
 	"os"
 )
 
+// Same as Color, but with RGB color
+type RGBColor struct {
+	fg, bg [3]uint8
+}
+
 // Boilerplate for configuration
 type Config struct {
 	Colorscheme map[string]struct {
-		InfoBar    Color `json:"infobar"`
-		TextField  Color `json:"textfield"`
-		Ruler      Color `json:"ruler"`
-		CommandBar Color `json:"commandbar"`
+		InfoBar    RGBColor `json:"infobar"`
+		TextField  RGBColor `json:"textfield"`
+		Ruler      RGBColor `json:"ruler"`
+		CommandBar RGBColor `json:"commandbar"`
 	} `json:"colorscheme"`
 
 	Delay map[string]struct {
